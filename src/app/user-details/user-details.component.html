@@ -1,0 +1,32 @@
+<section class="min-vh-100">
+    <div class="container w-75 my-5">
+
+        <div (click)="goBack()" class="cursor-pointer user-card d-inline-flex justify-content-start align-items-center gap-2 rounded-top p-3">
+            <i class="fa-solid fa-arrow-left btn btn-dark rounded"></i>
+            <span class="fw-bold">Back</span>
+        </div>
+
+        <!-- invalid id case -->
+        <div *ngIf="noUser">
+            <div class="user-card rounded-bottom text-center fw-bolder text-danger py-5">
+                User Not Found
+            </div>
+        </div>
+
+        <div *ngIf="userDataLoaded; else spinner"
+            class="user-card shadow rounded-bottom rounded-end d-flex flex-column justify-content-start gap-5 text-center align-items-center py-3">
+            <div>
+                <img class="h-100 rounded-circle shadow" [src]="userData.avatar" [alt]="userData.first_name">
+            </div>
+            <div>
+                <p>{{userData.first_name}} <span class="fw-bolder">{{userData.last_name | uppercase}}</span></p>
+                <a class="btn btn-primary" [href]="'mailto:' + userData.email" target="_blank">Email
+                    {{userData.first_name}} <i class="fa-regular fa-envelope"></i></a>
+            </div>
+        </div>
+
+        <ng-template #spinner>
+            <app-spinner></app-spinner>
+        </ng-template>
+    </div>
+</section>

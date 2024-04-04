@@ -1,0 +1,51 @@
+<section>
+    <div class="container w-75">
+
+        <ng-container *ngIf="dataLoaded; else spinner">
+
+            <!-- empty list case -->
+            <div *ngIf="response.data.length == 0" class="text-danger text-center rounded bg-warning fw-bolder py-5">
+                No users
+            </div>
+
+            <!-- users cards -->
+            <div class="row g-3 text-center" *ngIf="response.data.length > 0">
+                <div class="col-12">
+                    <input [(ngModel)]="searchInputValue" class="form-control w-25 d-inline mx-auto"
+                        placeholder="Search users by id or name" type="text">
+                </div>
+                <div class="col-md-6" *ngFor="let user of response.data | paginate: { id: 'usersPaginate',
+                itemsPerPage: response.per_page,
+                currentPage: response.page,
+                totalItems: response.total} | search:searchInputValue; index as i">
+                    <div [routerLink]="['/user', user.id]"
+                        class="inner shadow-lg rounded py-3 pe-3 d-flex align-items-center justify-content-between cursor-pointer"
+                        [ngClass]="i % 2 == 0 ? 'bg-even':'bg-odd'">
+                        <div>
+                            <img class="h-100 rounded-end-circle" [src]="user.avatar" [alt]="user.first_name">
+                        </div>
+                        <div>
+                            <h2>{{user.first_name}} {{user.last_name}}</h2>
+                            <a target="_blank" [href]="'mailto:' + user.email">{{user.email}}</a>
+                        </div>
+                        <div>
+                            <button class="h-100 btn btn-info" [routerLink]="['/user', user.id]">Details</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3 d-flex justify-content-center align-items-center">
+                    <pagination-controls id="usersPaginate" (pageChange)="pageChanged($event)"
+                        (pageBoundsCorrection)="pageChanged($event)" [maxSize]="9" [directionLinks]="true"
+                        [autoHide]="true" [responsive]="true" previousLabel="Previous" nextLabel="Next"
+                        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-template #spinner>
+            <app-spinner></app-spinner>
+        </ng-template>
+    </div>
+</section>

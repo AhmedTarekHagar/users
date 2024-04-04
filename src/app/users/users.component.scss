@@ -1,0 +1,17 @@
+.bg-even {
+    background-color: #C1DEFE;
+}
+
+.bg-odd {
+    background-color: #FCF4D7;
+}
+
+.inner {
+    position: relative;
+    transform: translate(0,0);
+    transition: transform 1s;
+}
+
+.inner:hover {
+    transform: translate(1%, 1%);
+}
